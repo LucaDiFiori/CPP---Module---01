@@ -8,12 +8,12 @@ This module is designed to help you understand the memory allocation, reference,
 ***
 
 # Table of Contents
-- [NEW and DELETE](#new-and-delete)
+- [NEW AND DELETE](#new-and-delete)
 - [REFERENCES](#references)
 
 ***
 
-## NEW and DELETE
+## NEW AND DELETE
 In C++, new and delete are operators used for dynamic memory management. They allow you to allocate and deallocate memory for objects at runtime. Here's a detailed explanation of each:
 
 ## New Operator
@@ -187,4 +187,7 @@ int main() {
 }
 ```
 
-## Advantages of Using References:
+### Advantages of Using References:
+- Efficiency: Passing large objects by reference avoids the overhead of copying.
+- Simplicity: The syntax for references is cleaner and easier to read compared to pointers.
+- Safety: References must be initialized and cannot be reassigned, reducing the risk of null pointer dereferencing.
