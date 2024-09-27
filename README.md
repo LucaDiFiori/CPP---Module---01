@@ -10,6 +10,7 @@ This module is designed to help you understand the memory allocation, reference,
 # Table of Contents
 - [NEW AND DELETE](#new-and-delete)
 - [REFERENCES](#references)
+- [FILESTREAMS](#filestreams)
 
 ***
 
@@ -168,7 +169,7 @@ A reference acts like the variable it refers to. Any operation performed on the 
 Unlike pointers, references cannot be null. They must always refer to a valid object.
 
 
-**Example: reference vs pointer**
+**Example: 0. reference vs pointer**
 ```C++
 #include <iostream>
 
@@ -256,7 +257,141 @@ int main()
 }
 ```
 
+**Example: 3. Return by reference**
+```C++
+#include <iostream>
+#include <string>
+
+class Student
+{
+    private:
+        std::string _login; // Private member variable to store the student's login
+
+    public:
+        // Constructor that initializes _login with the parameter 'login' 
+        Student(std::string const & login) : _login(login) 
+        {
+            // Consider correcting to: _login(login) to initialize with the argument passed to the constructor
+        }
+
+        // Returns a non-const reference to _login, allowing modification of the login
+        std::string& getLoginRef() 
+        {
+            return (this->_login); // Return reference to _login, allows modification
+        }
+
+        // Returns a const reference to _login, preventing modification
+        std::string const & getLoginRefConst() const 
+        {
+            return (this->_login); // Return const reference to _login, read-only
+        }
+
+        // Returns a non-const pointer to _login, allowing modification of the login through the pointer
+        std::string* getLoginPtr() 
+        {
+            return &(this->_login); // Return pointer to _login, allows modification
+        }
+
+        // Returns a const pointer to _login, preventing modification
+        std::string const * getLoginPtrConst() const 
+        {
+            return &(this->_login); // Return const pointer to _login, read-only
+        }
+};
+
+int main()
+{
+    // Create two Student objects: one mutable and one const
+    Student bob = Student("bfubar");           // bob is a regular (non-const) Student object
+    Student const jim = Student("jfubar");     // jim is a const Student object, can't be modified
+
+    // Output the login for both bob and jim using const reference and pointer getters
+    // Note: Using a const function in a non-cost variable is ok here
+    std::cout << bob.getLoginRefConst() << " = " << jim.getLoginRefConst() << std::endl; 
+    // getLoginPtrConst returns a pointer, so I need to dereference it to access the value
+    std::cout << *(bob.getLoginPtrConst()) << " = " << *(jim.getLoginPtrConst()) << std::endl;
+
+    // Modify bob's login using the non-const reference getter
+    // getLoginRef returns a reference (an alias for the actual login variable), so I can modify it
+    bob.getLoginRef() = "bobfubar";
+    std::cout << bob.getLoginRefConst() << std::endl;  // Output the modified login for bob
+
+    // Modify bob's login again using the non-const pointer getter
+    *(bob.getLoginPtr()) = "bobbyfubar";
+    std::cout << bob.getLoginRefConst() << std::endl;  // Output the modified login for bob
+
+    return 0;
+}
+```
+
 ### Advantages of Using References:
 - Efficiency: Passing large objects by reference avoids the overhead of copying.
 - Simplicity: The syntax for references is cleaner and easier to read compared to pointers.
 - Safety: References must be initialized and cannot be reassigned, reducing the risk of null pointer dereferencing.
+
+***
+
+## FILESTREAMS
+In C++, file streams are used to perform input and output operations on files. They provide a way to read data from files and write data to files using the same principles as standard input/output operations. The C++ standard library includes several classes in the <fstream> header for handling file streams.
+
+## Types of File Streams
+### 1. ifstream (Input File Stream):
+Used for reading data from files.
+
+**Example**
+```C++
+std::ifstream inputFile("example.txt");
+if (inputFile.is_open()) {
+    std::string line;
+    while (getline(inputFile, line)) {
+        std::cout << line << std::endl; // Output each line from the file
+    }
+    inputFile.close(); // Always close the file after use
+}
+```
+
+### 2. ofstream (Output File Stream):
+Used for writing data to files.
+
+**Example**
+```C++
+std::ofstream outputFile("output.txt");
+if (outputFile.is_open()) {
+    outputFile << "Hello, World!" << std::endl; // Write to the file
+    outputFile.close(); // Always close the file after use
+}
+```
+
+### 3. fstream (File Stream):
+A combination of both input and output file streams. It can read from and write to files.
+
+**Example**
+```C++
+std::fstream file("example.txt", std::ios::in | std::ios::out | std::ios::app);
+if (file.is_open()) {
+    file << "Appending this line to the file." << std::endl; // Write to the file
+    file.seekg(0); // Move cursor to the beginning for reading
+    std::string line;
+    while (getline(file, line)) {
+        std::cout << line << std::endl; // Output each line from the file
+    }
+    file.close(); // Always close the file after use
+}
+```
+std::fstream file("example.txt", std::ios::in | std::ios::out | std::ios::app) 
+create an std::fstream object that can read from and write to a file. Let's break down the components:
+- **std::fstream**: This is a class in the C++ Standard Library that provides facilities for file input and output. It allows you to read from and write to files simultaneously.
+- **file**: This is the name of the fstream object being created.
+- **example.txt**: This is the name of the file you are opening. If the file does not exist, it will be created when you write to it.
+- **std::ios::in**: This flag indicates that the file will be opened for reading.
+- **std::ios::out**: This flag indicates that the file will be opened for writing
+- **std::ios::app**: This flag indicates that all write operations will be appended to the end of the file. It means new data will be added after the existing content instead of overwriting it.
+
+The use of the bitwise OR operator (|) combines the three flags. This means that the file can be read from and written to, and any data written will be added at the end of the file.
+
+### Key Operations
+- **Opening a File**: 
+    - You can open a file by creating an instance of **ifstream**, **ofstream**, or **fstream** and passing the file name as a parameter.
+    - You can also specify file modes (e.g., read, write, append) using **std::ios::** flags.
+- **Checking if a File is Open:**:
+
