@@ -159,7 +159,7 @@ int& ref = originalVariable //creates a reference to originalVariable
 ```
 
 ### 2. Initialization
-A reference must be initialized when it is created, and it cannot be changed to refer to another variable after initialization.
+A reference must be **initialized when it is created** (on the same line), and it cannot be changed to refer to another variable after initialization.
 
 ### 3. Behavior
 A reference acts like the variable it refers to. Any operation performed on the reference will directly affect the original variable.
@@ -167,7 +167,29 @@ A reference acts like the variable it refers to. Any operation performed on the 
 ### 4. Cannot be Null:
 Unlike pointers, references cannot be null. They must always refer to a valid object.
 
-**Example**
+
+**Example: reference vs pointer**
+```C++
+#include <iostream>
+
+int main()
+{
+    int numberOfiBalls = 42;
+
+    int* ballsPtr = &numberOfBalls;
+    int& ballsRef = numberOfBalls; //Assigning "numberOfBalls" by reference, not its address
+
+    std::cout << " " << numberOfBalls << " " << *ballsPtr << " " << ballsRef << std::endl; //output= 42 42 42
+
+    *ballsPtr = 21;
+    std::cout << numbetOfBalls << std::endl // output: 21
+    ballsRef = 84;
+    std::cout << numbetOfBalls << std::endl // output: 84
+    // Note: References don't need to be dereferenced (* operator); they automatically refer to the original variable!
+}
+```
+
+**Example: 1. Passing parameters by reference**
 ```C++
 #include <iostream>
 using namespace std;
@@ -182,6 +204,53 @@ int main() {
 
     increment(num); // Pass num by reference
     cout << "After incrementing: " << num << endl; // Output: 6
+
+    return 0;
+}
+```
+
+**Example: 2. Passing parameters by reference**
+```C++
+#include <string>
+#include <iostream>
+
+// Takes a pointer to std::string, modifies the original string via pointer
+void byPtr(std::string* str) 
+{
+    *str += " and ponies"; // Dereferences the pointer and appends " and ponies" to the original string
+}
+
+// Takes a pointer to const std::string, can only read, not modify the original string
+void byConstPtr(std::string const * str)
+{
+    std::cout << *str << std::endl; // Dereferences the pointer and prints the string (read-only)
+}
+
+// Takes a reference to std::string, modifies the original string via reference
+void byRef(std::string& str) 
+{
+    str += " and ponies"; // Directly appends " and ponies" to the original string
+}
+
+// Takes a const reference to std::string, can only read, not modify the original string
+void byConstRef(std::string const & str) 
+{
+    std::cout << str << std::endl; // Prints the string (read-only)
+}
+
+int main() 
+{
+    std::string str = "I like butterflies"; // Initialize the string
+
+    std::cout << str << std::endl; // Prints: I like butterflies
+    byPtr(&str); // Calls byPtr, modifies the string through the pointer
+    byConstPtr(&str); // Calls byConstPtr, prints the modified string
+
+    str = "I like otters"; // Resets the string to a new value
+
+    std::cout << str << std::endl; // Prints: I like otters
+    byRef(str); // Calls byRef, modifies the string via reference
+    byConstRef(str); // Calls byConstRef, prints the modified string
 
     return 0;
 }
