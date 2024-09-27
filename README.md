@@ -394,4 +394,56 @@ The use of the bitwise OR operator (|) combines the three flags. This means that
     - You can open a file by creating an instance of **ifstream**, **ofstream**, or **fstream** and passing the file name as a parameter.
     - You can also specify file modes (e.g., read, write, append) using **std::ios::** flags.
 - **Checking if a File is Open:**:
+    - Use the **is_open()** method to check if the file has been successfully opened.
+- **Reading from a File:**:
+    - Use methods like **getline()**, **>>** operator, or the **read()** method to read data from a file.
+- **Writing to a File:**:
+    - Use the **<<** operator or the **write()** method to write data to a file.
+- **Closing a File**:
+    - Always close a file using the **close()** method after you are done with file operations to release system resources.
 
+### Error Handling
+You can check for errors while opening, reading, or writing to files using the **fail()** method or checking the stream state.
+
+#### Example
+```C++
+#include <iostream>
+#include <fstream>
+
+int main()
+{
+    // Open an input file stream to read from the file named "numbers"
+    std::ifstream ifs("numbers");
+    
+    // Declare two unsigned integer variables to hold the values read from the file
+    unsigned int dst;  
+    unsigned int dst2;
+
+    // Read two unsigned integers from the file and store them in dst and dst2
+    // chaining >>: The extraction operator allows for chaining, meaning you can 
+    //              use it multiple times in one statement. Each call to >> reads 
+    //              the next piece of data from the input stream.
+    //              First, ifs >> dst reads the first number from the file and stores it in dst
+    //              Next, >> dst2 takes the next number from the stream 
+    //              (the one immediately following the first number) and stores it in dst2.
+    ifs >> dst >> dst2;
+
+    // Output the values read from the file to the console
+    std::cout << dst << " " << dst2 << std::endl;
+
+    // Close the input file stream to release system resources
+    ifs.close();
+
+    //-----------------------
+
+    // Open an output file stream to write to the file named "test.out"
+    std::ofstream ofs("test.out");
+
+    // Write the string "i like ponies" to the file, followed by a newline character
+    ofs << "i like ponies" << std::endl;
+
+    // Close the output file stream to release system resources and ensure all data is flushed to the file
+    ofs.close();
+    }
+```
+***
