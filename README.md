@@ -271,7 +271,6 @@ class Student
         // Constructor that initializes _login with the parameter 'login' 
         Student(std::string const & login) : _login(login) 
         {
-            // Consider correcting to: _login(login) to initialize with the argument passed to the constructor
         }
 
         // Returns a non-const reference to _login, allowing modification of the login
