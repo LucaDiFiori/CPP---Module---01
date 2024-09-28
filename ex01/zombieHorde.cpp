@@ -16,8 +16,8 @@
  * Function: zombieHorde
  * ---------------------
  * Creates an array (horde) of Zombies dynamically, with each Zombie initialized to 
- * have the same specified name. The function returns a pointer to the first element 
- * of the Zombie array, allowing access to the entire horde.
+ * have the same specified name using the `setName()` method. The function returns a 
+ * pointer to the first element of the Zombie array, allowing access to the entire horde.
  *
  * Parameters:
  *  - N: The number of Zombies to create in the horde.
@@ -25,11 +25,12 @@
  *
  * Process:
  *  - Dynamically allocates an array of N Zombie objects using the 'new' operator.
- *  - Iterates over the array, initializing each Zombie object with the provided name 
- *    using the constructor `Zombie(name)`.
+ *  - The `new Zombie[N]` expression allocates memory for an array of N Zombies.
+ *  - Each Zombie object is then initialized using the `setName()` method, which assigns 
+ *    the same name (passed as a parameter) to all Zombies in the horde.
  *  - Returns a pointer to the first element of the Zombie array, which can be used 
- *    to access the entire horde.
- * 
+ *    to access and manage the entire horde.
+ *
  * NOTE. horde = new Zombie[N];
  * - The expression new Zombie[N] dynamically allocates an array of N Zombie objects 
  *   on the heap. This means it reserves enough memory to store N instances of the Zombie class.
