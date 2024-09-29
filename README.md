@@ -12,6 +12,7 @@ This module is designed to help you understand the memory allocation, reference,
 - [REFERENCES](#references)
 - [FILESTREAMS](#filestreams)
 - [POINTERS TO MEMBER FUNCTIONS](#pointers-to-member-functions)
+- [SWITCH STATEMENT](#switch-statement)
 
 ***
 
@@ -547,3 +548,108 @@ int main() {
 
 ***
 
+## SWITCH STATEMENT
+The switch statement in C++ is a control structure used for executing one block of code among many, based on the value of a single variable or expression. It's an alternative to multiple if-else statements, making the code more readable when there are multiple conditions to check against the same variable.
+
+## Basic Structure of a switch Statement:
+```C++
+switch (expression) {
+    case constant1:
+        // Code to execute if expression equals constant1
+        break;
+    case constant2:
+        // Code to execute if expression equals constant2
+        break;
+    case constant3:
+        // Code to execute if expression equals constant3
+        break;
+    default:
+        // Code to execute if none of the cases match
+        break;
+}
+```
+
+## Key Points:
+- **Expression**: The expression inside the **switch** is evaluated once and compared with each **case**. The expression must result in an integral value (like int, char, enum), meaning you can't use non-integral types like float or string.
+- **Case Labels**: Each case represents a possible value of the **expression**. When the value of the expression matches a case, the code following that case label is executed.
+- **Break Statement**: The break statement exits the switch block. If break is omitted, execution will "fall through" to the next case, meaning the code for subsequent cases will also be executed until a break or the end of the switch is reached. In most cases, you'll want to use break to prevent this.
+- **Default Case**: The default case is optional. If none of the case values match the expression, the default block is executed. It works like the else block in if-else statements.
+
+### Examples:
+```C++
+#include <iostream>
+
+int main() {
+    int day = 4;
+
+    switch(day) {
+        case 1:
+            std::cout << "Monday" << std::endl;
+            break;
+        case 2:
+            std::cout << "Tuesday" << std::endl;
+            break;
+        case 3:
+            std::cout << "Wednesday" << std::endl;
+            break;
+        case 4:
+            std::cout << "Thursday" << std::endl;
+            break;
+        case 5:
+            std::cout << "Friday" << std::endl;
+            break;
+        case 6:
+            std::cout << "Saturday" << std::endl;
+            break;
+        case 7:
+            std::cout << "Sunday" << std::endl;
+            break;
+        default:
+            std::cout << "Invalid day" << std::endl;
+    }
+
+    return 0;
+}
+```
+
+## Key Behaviors:
+
+- **Fallthrough**: If the break statement is omitted in a case, execution continues into the next case.
+```C++
+int num = 2;
+switch (num) {
+    case 1:
+        std::cout << "One";
+    case 2:
+        std::cout << "Two";  // Falls through and executes next case.
+    case 3:
+        std::cout << "Three";
+}
+
+// Output: "TwoThree"
+```
+
+- **Default**: The default case is executed if no case matches.
+```C++
+int num = 10;
+switch (num) {
+    case 1:
+        std::cout << "One";
+        break;
+    default:
+        std::cout << "Not One";
+}
+
+// Output: "Not One"
+```
+
+- **Multiple Cases with the Same Action**: You can stack case labels to execute the same code for different values.
+```C++
+switch (num) {
+    case 1:
+    case 2:
+    case 3:
+        std::cout << "One, Two, or Three";
+        break;
+}
+```
