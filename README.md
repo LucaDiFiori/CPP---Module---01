@@ -353,6 +353,7 @@ Used for reading data from files.
 
 **Example**
 ```C++
+// The code opens a text file named "example.txt", reads its contents line by line, and prints each line to the console
 std::ifstream inputFile("example.txt");
 if (inputFile.is_open()) {
     std::string line;
