@@ -11,6 +11,7 @@ This module is designed to help you understand the memory allocation, reference,
 - [NEW AND DELETE](#new-and-delete)
 - [REFERENCES](#references)
 - [FILESTREAMS](#filestreams)
+- [POINTERS TO MEMBER FUNCTIONS](#pointers-to-member-functions)
 
 ***
 
@@ -460,4 +461,89 @@ int main()
     ofs.close();
     }
 ```
+
 ***
+
+## POINTERS TO MEMBER FUNCTIONS
+In C++, "pointers to member functions" are a special type of pointer that points to member functions of a class. Unlike regular function pointers, which point to regular functions, pointers to member functions take into account the class instance (object) they belong to.
+
+## Pointer to Member Function Syntax
+The syntax for declaring a pointer to a member function is quite specific and is different from regular function pointers. It includes the class name, and uses ::* to denote that it points to a member function of that class.
+```C++
+returnType (ClassName::*pointerName)(parameterTypes);
+```
+
+**Example**
+```C++
+class MyClass {
+public:
+    void memberFunction();
+};
+
+// Pointer to a member function of MyClass
+void (MyClass::*ptrToMemberFunc)();
+```
+
+## Initializing a Pointer to Member Function
+To assign a member function to a pointer, you use the address-of operator **&** with the scope resolution operator **ClassName::**.
+
+**Example**
+```C++
+ptrToMyFunction = &MyClass::myFunction;
+```
+
+## Invoking a Member Function through a Pointer
+To invoke a member function using a pointer to that function, you need to specify the object through which you want to call the function. This is done using either the .* operator for a direct object or the ->* operator for a pointer to an object.
+
+**Example**
+```C++
+MyClass obj;
+(obj.*ptrToMyFunction)(); // Calls myFunction on obj
+```
+**If you have a pointer to an object:**
+```C++
+MyClass* objPtr = &obj;
+(objPtr->*ptrToMyFunction)(); // Also calls myFunction on obj
+```
+
+### Full Example
+```C++
+#include <iostream>
+
+class MyClass {
+public:
+    void display() {
+        std::cout << "Display function called" << std::endl;
+    }
+    
+    void greet(std::string name) {
+        std::cout << "Hello, " << name << "!" << std::endl;
+    }
+};
+
+int main() {
+    MyClass obj;
+
+    // Pointer to member function that takes no parameters
+    void (MyClass::*ptrDisplay)() = &MyClass::display;
+
+    // Pointer to member function that takes a string parameter
+    void (MyClass::*ptrGreet)(std::string) = &MyClass::greet;
+
+    // Call member function using object
+    (obj.*ptrDisplay)(); // Calls display function
+
+    // Call member function with a parameter
+    (obj.*ptrGreet)("Alice"); // Calls greet function with "Alice"
+
+    // Using a pointer to an object
+    MyClass* objPtr = &obj;
+    (objPtr->*ptrDisplay)(); // Calls display function
+    (objPtr->*ptrGreet)("Bob"); // Calls greet function with "Bob"
+
+    return 0;
+}
+```
+
+***
+
